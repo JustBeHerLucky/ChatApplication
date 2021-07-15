@@ -2,6 +2,7 @@
 #include <winsock2.h>
 #include <WS2tcpip.h>
 #include <process.h>
+#include <windows.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -25,7 +26,11 @@ unsigned __stdcall recvThread(void* param) {
 		}
 		else if (strlen(buff) > 0) {
 			buff[ret] = '\0';
-			cout << buff << endl;
+			if ((string)buff == "\\out") {
+				cout << "Dang xuat thanh cong, Client ngat ket noi trong 5s";
+				Sleep(5000);
+				exit(0);
+			}else cout << buff << endl;
 		}
 	}
 
@@ -75,6 +80,7 @@ int main(int argc, char* argv[]) {
 
 	while (true)
 	{
+		
 		// Send message
 		gets_s(buff, BUFF_SIZE);
 		messageLen = strlen(buff);
